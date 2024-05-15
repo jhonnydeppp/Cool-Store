@@ -5,16 +5,10 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="testCocktailListDisplayed()">
+      <entry key="navigateToResumeScreen()">
         <State />
       </entry>
-      <entry key="testDetailScreenBackButton()">
-        <State />
-      </entry>
-      <entry key="testDetailScreenDisplayed()">
-        <State />
-      </entry>
-      <entry key="testErrorDisplayed()">
+      <entry key="useAppContext()">
         <State />
       </entry>
     </value>

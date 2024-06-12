@@ -14,3 +14,6 @@ class MainActivity : ComponentActivity() {
         setContent { AppNavigation() }
     }
 }
+
+@AndroidEntryPoint
+class HiltTestActivity : ComponentActivity()

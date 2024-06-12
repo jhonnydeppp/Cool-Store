@@ -2,6 +2,10 @@ package com.jhonny.coolstore
 
 import android.content.Intent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
@@ -16,7 +20,9 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.jhonny.coolstore.presenter.MainActivity
+import com.jhonny.coolstore.presenter.composables.CounterButton
 import com.jhonny.coolstore.presenter.main.MainScreen
+import com.jhonny.coolstore.presenter.navigation.AppNavigation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -48,10 +54,13 @@ class ExampleInstrumentedTest {
     }
 
     @get:Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createComposeRule()
+   /* @get:Rule
+    val composeTestRuleActivity = createAndroidComposeRule<MainActivity>()*/
+
 
     @Test
-    fun navigateToResumeScreen() {
+    fun navigateToResumeScreenWithActivity() {
                 composeTestRule.onNode(
                     hasContentDescription("Increase count")
                 ).performClick()
@@ -62,4 +71,59 @@ class ExampleInstrumentedTest {
 
     }
 
+
+    @Test
+    fun navigateCounterButton() {
+        composeTestRule.setContent {
+            var valueCounter by remember {
+                mutableStateOf(0)
+            }
+            CounterButton(
+                value = valueCounter.toString(),
+                onValueIncreaseClick = {
+                    valueCounter += 1
+                },
+                onValueDecreaseClick = {
+                    valueCounter = maxOf(valueCounter - 1, 0)
+                },
+                onValueClearClick = {
+                    valueCounter = 0
+                }
+            )
+        }
+
+        composeTestRule.onNode(
+            hasContentDescription("Increase count")
+        ).performClick()
+        composeTestRule.onNode(
+            hasText("1")
+        ).assertIsDisplayed()
+
+        composeTestRule.onNode(
+            hasContentDescription("Decrease count")
+        ).performClick()
+        composeTestRule.onNode(
+            hasText("0")
+        ).assertIsDisplayed()
+
+        //composeTestRule.onNodeWithText("Comprar").performClick()
+        // composeTestRule.onNodeWithText("Pagar").assertIsDisplayed()
+
+    }
+    /*
+    @Test
+    fun navigateToResumeScreen() {
+        composeTestRule1.setContent {
+            AppNavigation()
+        }
+/*
+        composeTestRule1.onNode(
+            hasContentDescription("Increase count")
+        ).performClick()
+
+        composeTestRule1.waitForIdle()*/
+        //composeTestRule.onNodeWithText("Comprar").performClick()
+        // composeTestRule.onNodeWithText("Pagar").assertIsDisplayed()
+
+    }*/
 }
